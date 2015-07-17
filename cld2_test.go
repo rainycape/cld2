@@ -32,3 +32,18 @@ func TestDetect(t *testing.T) {
 		}
 	}
 }
+
+func TestGetLanguageDetection(t *testing.T) {
+	for _, item := range testData {
+		actual := GetLanguageDetection(item.Text)
+		if actual.Code != item.ExpectLanguageCode {
+			t.Errorf("expected `%s`, got `%s` (%s)", item.ExpectLanguageCode, actual.Code, item.Text)
+		}
+		if actual.Name != item.ExpectLanguageName {
+			t.Errorf("expected `%s`, got `%s` (%s)", item.ExpectLanguageName, actual.Name, item.Text)
+		}
+		if actual.IsReliable != item.ExpectIsReliable {
+			t.Errorf("expected `%s`, got `%s` (%s)", item.ExpectIsReliable, actual.IsReliable, item.Text)
+		}
+	}
+}

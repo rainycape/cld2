@@ -23,3 +23,26 @@ func Detect(text string) string {
 	}
 	return lang
 }
+
+type LanguageDetection struct {
+	Code       string // e.g., "en", "ko", "xx-Brai"
+	Name       string // e.g., "ENGLISH", "Korean", "X_Braille"
+	Percent    int
+	IsReliable bool
+}
+
+// GetLanguageDetection returns the LanguageDetection from the
+// given body of text; it is useful for cases where more than
+// just the language code is needed.
+func GetLanguageDetection(text string) LanguageDetection {
+	cs := C.CString(text)
+	res := C.GetLanguageDetection(cs, -1)
+	C.free(unsafe.Pointer(cs))
+
+	return LanguageDetection{
+		Code:       C.GoString(res.code),
+		Name:       C.GoString(res.name),
+		Percent:    int(res.percent),
+		IsReliable: (res.is_reliable == true),
+	}
+}
