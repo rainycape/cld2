@@ -2,11 +2,13 @@
 
 
 set -x;
+set -o errexit
 
-SVN=http://cld2.googlecode.com/svn/trunk/
+GIT=https://github.com/CLD2Owners/cld2.git
 DIR=cld2
+
 # Checkout a temporary copy of the repository
-svn co ${SVN} ${DIR}
+git clone ${GIT} ${DIR}
 
 cp ${DIR}/internal/*.h .
 cp ${DIR}/public/*.h .
@@ -42,7 +44,7 @@ source ./compile_libs.sh
 
 cd -
 
-sed -i 's/..\/public\///' *.h *.cc
-sed -i 's/..\/internal\///' *.h
+sed -i '' -e 's/..\/public\///' *.h *.cc
+sed -i '' -e 's/..\/internal\///' *.h
 
 rm -fr ${DIR}
